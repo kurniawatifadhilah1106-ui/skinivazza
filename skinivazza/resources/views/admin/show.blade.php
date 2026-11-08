@@ -1,0 +1,10 @@
+@extends('layout')@section('c')<div class="max-w-xl mx-auto space-y-3"><h1 class="font-serif text-3xl">#{{ $o->code }} <small class="text-base">{{ $o->label() }}</small></h1>
+<div class="bg-rose-soft rounded-xl p-4 text-sm">{{ $o->name }} · {{ $o->wa }}<br>{{ $o->address }}<br>Kurir: {{ $o->courier }}<br>Catatan: {{ $o->note?:'-' }}@foreach($o->items as $i)<p>{{ $i->name }} ×{{ $i->qty }}</p>@endforeach</div>
+@if($o->proof)<img src="/storage/{{ $o->proof }}" class="max-h-80 rounded">@endif
+@if($o->status=='waiting_shipping')<form method="post" action="/admin/pesanan/{{ $o->id }}/total" class="flex gap-2">@csrf<input name="shipping" type="number" placeholder="Ongkir" class="border rounded p-2 flex-1"><button class="bg-rose text-white px-4 rounded">Kirim Total</button></form>@endif
+@if($o->status=='waiting_confirm')<form method="post" action="/admin/pesanan/{{ $o->id }}/confirm">@csrf<button class="w-full bg-rose text-white py-2 rounded">Konfirmasi Bayar</button></form>
+<form method="post" action="/admin/pesanan/{{ $o->id }}/reject" class="flex gap-2">@csrf<input name="reason" placeholder="Alasan" required class="border rounded p-2 flex-1"><button class="border border-rose text-rose px-4 rounded">Tolak Bukti</button></form>@endif
+@if($o->status=='packing')<form method="post" action="/admin/pesanan/{{ $o->id }}/resi" class="flex gap-2">@csrf<input name="resi" placeholder="Nomor resi" required class="border rounded p-2 flex-1"><button class="bg-rose text-white px-4 rounded">Simpan Resi</button></form>@endif
+@if(in_array($o->status,['waiting_shipping','waiting_payment','waiting_confirm','rejected','packing']))<form method="post" action="/admin/pesanan/{{ $o->id }}/cancel">@csrf<button class="text-red-600 text-sm underline">Batalkan</button></form>@endif
+@if($o->status=='done'&&$o->user_id)<form method="post" action="/admin/pesanan/{{ $o->id }}/revoke">@csrf<button class="text-xs underline">Tarik poin (retur/refund)</button></form>@endif
+@include('_chat',['me'=>'admin','url'=>'/admin/pesanan/'.$o->id.'/pesan'])</div>@endsection

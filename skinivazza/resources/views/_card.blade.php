@@ -1,0 +1,2 @@
+<a href="/produk/{{ $x->slug }}" class="block bg-rose-soft rounded-2xl overflow-hidden relative"><span class="absolute top-2 left-2 text-[10px] bg-white px-2 py-1 rounded-full">{{ $x->stock<1?($x->preorder?'Pre-order':'Habis'):'' }}</span>
+<img src="/images/products/{{ $x->image }}" class="aspect-square object-cover w-full"><div class="p-3"><p class="text-sm font-medium">{{ $x->name }}</p><p class="text-rose font-semibold">Rp{{ number_format($x->price,0,',','.') }}</p></div></a>

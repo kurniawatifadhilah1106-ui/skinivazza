@@ -1,0 +1,5 @@
+@extends('layout')@section('c')<div class="grid md:grid-cols-2 gap-8"><img src="/images/products/{{ $p->image }}" class="rounded-2xl w-full"><div><h1 class="font-serif text-3xl">{{ $p->name }}</h1><p class="text-rose text-2xl my-2">Rp{{ number_format($p->price,0,',','.') }}</p>
+<p>{{ $p->description }}</p><p class="mt-3 text-sm"><b>Kandungan:</b> {{ $p->ingredients }}</p><p class="text-sm"><b>Cara pakai:</b> {{ $p->usage }}</p><p class="text-sm"><b>BPOM:</b> {{ $p->bpom }}</p>
+<form method="post" action="/keranjang" class="mt-5 space-y-2">@csrf<input type="hidden" name="slug" value="{{ $p->slug }}"><input type="hidden" name="mode" value="add">
+<button class="w-full bg-rose text-white py-3 rounded-full disabled:opacity-40" @disabled($p->stock<1&&!$p->preorder)>{{ $p->stock<1&&!$p->preorder?'Habis':'Tambah ke Keranjang' }}</button></form>
+<a href="#" class="block text-center border border-rose text-rose py-3 rounded-full mt-2">Beli di Shopee / TikTok</a><a href="https://wa.me/62000000000" class="block text-center border py-3 rounded-full mt-2">Tanya via WhatsApp</a></div></div>@endsection

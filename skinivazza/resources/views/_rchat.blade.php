@@ -1,0 +1,2 @@
+<div class="bg-rose-soft rounded-xl p-3 space-y-2 max-h-80 overflow-auto">@foreach($d->msgs as $m)<div class="{{ $m->sender==$me?'text-right':'' }}"><span class="inline-block bg-white rounded-xl px-3 py-2 text-sm">{{ $m->body }}</span></div>@endforeach</div>
+<form method="post" action="{{ $url }}" class="flex gap-2 mt-2">@csrf<input name="body" required placeholder="Tulis pesan..." class="flex-1 border rounded-lg p-2"><button class="btn px-5">Kirim</button></form>
